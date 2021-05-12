@@ -1,5 +1,6 @@
 package com.example.filmify.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +9,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.filmify.R
 import com.example.filmify.data.Movies.Movies
 import com.example.filmify.databinding.ItemMoviesBinding
+import com.example.filmify.ui.MovieDetailActivity
+import com.example.filmify.ui.TvShowDetailActivity
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
     private var listMovies = ArrayList<Movies>()
@@ -36,6 +39,11 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
             with(binding) {
                 itemTvTitle.text = movie.title
                 itemTvDescription.text = movie.description
+                itemView.setOnClickListener {
+                    val intent = Intent(itemView.context,MovieDetailActivity::class.java)
+                    intent.putExtra("movie_id",movie.movieId)
+                    itemView.context.startActivity(intent)
+                }
                 Glide.with(itemView.context)
                         .load(movie.imagePath)
                         .apply(RequestOptions.placeholderOf(R.drawable.ic_loading)
