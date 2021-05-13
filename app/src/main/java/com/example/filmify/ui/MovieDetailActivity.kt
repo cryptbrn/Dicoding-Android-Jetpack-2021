@@ -2,6 +2,10 @@ package com.example.filmify.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.view.View.GONE
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -20,7 +24,6 @@ class MovieDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[MoviesViewModel::class.java]
-
         val extras = intent.extras
         if (extras != null) {
             val movieId = extras.getString("movie_id")
@@ -29,14 +32,10 @@ class MovieDetailActivity : AppCompatActivity() {
                 setMovie(movie)
             }
         }
-
-
-
     }
 
     @SuppressLint("SetTextI18n")
     private fun setMovie(movie: Movies.Movies) {
-
         with(binding){
             detailTvTitle.text = movie.title
             detailTvDescription.text = movie.description
@@ -44,7 +43,7 @@ class MovieDetailActivity : AppCompatActivity() {
             detailTvRating.text = "User Rating : " + movie.rating
             detailTvStatus.text = movie.status
             detailTvYear.text = movie.releaseYear
-
+            supportActionBar?.setTitle(movie.title)
             Glide.with(this@MovieDetailActivity)
                 .load(movie.imagePath)
                 .apply(
@@ -54,5 +53,14 @@ class MovieDetailActivity : AppCompatActivity() {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
 }
