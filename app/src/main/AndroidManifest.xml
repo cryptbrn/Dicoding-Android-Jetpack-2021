@@ -13,7 +13,11 @@
         android:theme="@style/Theme.Filmify">
         <activity android:name=".ui.TvShowDetailActivity"/>
         <activity android:name=".ui.MovieDetailActivity"/>
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.MainActivity"/>
+        <activity
+            android:name=".ui.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
