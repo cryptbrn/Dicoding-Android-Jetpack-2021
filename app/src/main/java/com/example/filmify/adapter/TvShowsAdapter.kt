@@ -14,10 +14,10 @@ import com.example.filmify.ui.DetailActivity
 class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() {
     private var listTvShow = ArrayList<Movies>()
 
-    fun setTvShows(tvshows: List<Movies>?) {
-        if (tvshows == null) return
+    fun setTvShows(tvShows: List<Movies>?) {
+        if (tvShows == null) return
         this.listTvShow.clear()
-        this.listTvShow.addAll(tvshows)
+        this.listTvShow.addAll(tvShows)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowsViewHolder {

@@ -37,7 +37,7 @@ class DetailActivity : AppCompatActivity() {
             detailTvTitle.text = movie.title
             detailTvDescription.text = movie.description
             detailTvLanguage.text = movie.originalLanguage
-            detailTvRating.text = "User Rating : " + movie.rating
+            detailTvRating.text = "User Rating : ${movie.rating}"
             detailTvStatus.text = movie.status
             detailTvYear.text = movie.releaseYear
             supportActionBar?.title = movie.title

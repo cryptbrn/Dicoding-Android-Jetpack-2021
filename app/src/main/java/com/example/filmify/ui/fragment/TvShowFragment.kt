@@ -34,7 +34,7 @@ class TvShowFragment : Fragment() {
             val tvShowsAdapter = TvShowsAdapter()
             tvShowsAdapter.setTvShows(tvShows)
 
-            with(binding.rvTvshows) {
+            with(binding.rvTvShows) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
                 adapter = tvShowsAdapter
