@@ -2,6 +2,7 @@ package com.example.filmify.ui.fragment
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -27,5 +28,11 @@ class MovieFragmentTest {
             .check(matches(isDisplayed()))
         onView(withId(R.id.rv_movies))
             .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(dummyMovies.size))
+    }
+
+    @Test
+    fun clickMovie(){
+        onView(withId(R.id.rv_movies))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0,click()))
     }
 }

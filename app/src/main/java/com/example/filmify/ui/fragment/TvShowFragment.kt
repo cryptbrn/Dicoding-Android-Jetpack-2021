@@ -21,7 +21,6 @@ class TvShowFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTvShowsBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -30,10 +29,8 @@ class TvShowFragment : Fragment() {
         if (activity != null) {
             val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[TvShowViewModel::class.java]
             val tvShows = viewModel.getTvShows()
-
             val tvShowsAdapter = TvShowsAdapter()
             tvShowsAdapter.setTvShows(tvShows)
-
             with(binding.rvTvShows) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)

@@ -11,14 +11,12 @@ class DetailViewModel : ViewModel() {
         val movieList = arrayListOf<Movies>()
         movieList.addAll(DataDummy.generateDummyMovies())
         movieList.addAll(DataDummy.generateDummyTvShows())
-
         for (data in movieList){
             if(data.id == id){
                 movie = data
                 break
             }
         }
-
         return movie
     }
 

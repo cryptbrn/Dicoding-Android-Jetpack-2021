@@ -2,6 +2,7 @@ package com.example.filmify.ui.fragment
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeLeft
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -34,5 +35,11 @@ class TvShowFragmentTest {
             .check(matches(isDisplayed()))
         onView(withId(R.id.rv_tv_shows))
             .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(dummyTvShows.size))
+    }
+
+    @Test
+    fun clickTvShow(){
+        onView(withId(R.id.rv_tv_shows))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
     }
 }

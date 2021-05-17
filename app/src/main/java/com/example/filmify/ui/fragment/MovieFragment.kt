@@ -21,7 +21,6 @@ class MovieFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMoviesBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -30,10 +29,8 @@ class MovieFragment : Fragment() {
         if(activity != null){
             val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[MoviesViewModel::class.java]
             val movies = viewModel.getMovies()
-
             val moviesAdapter = MoviesAdapter()
             moviesAdapter.setMovies(movies)
-
             with(binding.rvMovies) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
@@ -41,7 +38,6 @@ class MovieFragment : Fragment() {
             }
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
