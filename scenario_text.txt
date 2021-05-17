@@ -1,0 +1,38 @@
+MainActivity :
+1.Pengujian ViewPager :
+	- Memastikan viewpager dalam keadaan tampil
+	- Mengusap viewpager ke kiri (untuk melihat tvshow fragment)
+	- Mengusap viewpager ke kanan (untuk kembali ke movie fragment)
+2.Pengujian TabLayout :
+	- Memastikan tablayout dalam keadaan tampil
+	
+MovieFragment:
+1.Pengujian dalam menampilkan data movie :
+	- Memastikan rv_movies dalam keadaan tampil
+	- Gulir rv_movies ke posisi data terakhir
+2.Pengujian dalam mengklik salah satu movie :
+	- Memberi tindakan klik pada data pertama di rv_movie.
+
+TvShowFragment :
+1.Pengujian dalam menampilkan data tv show:
+	- Memastikan rv_tv_shows dalam keadaan tampil
+	- Gulir rv_tv_shows ke posisi data terakhir
+2.Pengujian dalam mengklik salah satu tv show :
+	- Memberi tindakan klik pada data pertama di rv_tv_show.
+
+Detail Activity :
+1.Pengujian pada detail data:
+	- Memastikan detail_tv_title (title) dalam keadaan tampil
+	- Memastikan data yang ditampilkan oleh detail_tv_title (title) sama dengan data yang dikirim
+	- Memastikan detail_tv_description (description) dalam keadaan tampil
+	- Memastikan data yang ditampilkan oleh detail_tv_description (description) sama dengan data yang dikirim
+	- Memastikan detail_tv_language (original language) dalam keadaan tampil
+	- Memastikan data yang ditampilkan oleh detail_tv_language (original language) sama dengan data yang dikirim
+	- Memastikan detail_tv_rating (rating) dalam keadaan tampil
+	- Memastikan data yang ditampilkan oleh detail_tv_rating (rating) sama dengan data yang dikirim
+	- Memastikan detail_tv_status (status) dalam keadaan tampil
+	- Memastikan data yang ditampilkan oleh detail_tv_status (status) sama dengan data yang dikirim
+	- Memastikan detail_tv_year (release year) dalam keadaan tampil
+	- Memastikan data yang ditampilkan oleh detail_tv_year (release year) sama dengan data yang dikirim
+	- Memastikan detail_iv_poster (poster) dalam keadaan tampil
+
