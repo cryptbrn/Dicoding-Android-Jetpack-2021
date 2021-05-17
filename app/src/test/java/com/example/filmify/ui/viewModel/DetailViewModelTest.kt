@@ -2,10 +2,10 @@ package com.example.filmify.ui.viewModel
 
 import com.example.filmify.data.Movies.Movies
 import com.example.filmify.utils.DataDummy
-import org.junit.Test
-
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
+import org.junit.Test
 
 class DetailViewModelTest {
     private lateinit var viewModel: DetailViewModel

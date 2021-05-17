@@ -1,9 +1,10 @@
 package com.example.filmify.ui.viewModel
 
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Before
 import org.junit.Test
 
-import org.junit.Assert.*
-import org.junit.Before
 
 class TvShowViewModelTest {
     private lateinit var viewModel: TvShowViewModel
