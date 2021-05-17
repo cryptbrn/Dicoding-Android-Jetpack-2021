@@ -3,9 +3,6 @@ package com.example.filmify.ui
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import android.view.View.GONE
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -13,9 +10,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.filmify.R
 import com.example.filmify.data.Movies
 import com.example.filmify.databinding.ActivityDetailBinding
-import com.example.filmify.ui.viewModel.MoviesViewModel
+import com.example.filmify.ui.viewModel.DetailViewModel
 
-class MovieDetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,12 +20,12 @@ class MovieDetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[MoviesViewModel::class.java]
+        val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[DetailViewModel::class.java]
         val extras = intent.extras
         if (extras != null) {
-            val movieId = extras.getString("movie_id")
-            if (movieId != null) {
-                val movie = viewModel.getMovies(movieId.toInt())
+            val id = extras.getString("id")
+            if (id != null) {
+                val movie = viewModel.getDetails(id)
                 setMovie(movie)
             }
         }
@@ -43,13 +40,12 @@ class MovieDetailActivity : AppCompatActivity() {
             detailTvRating.text = "User Rating : " + movie.rating
             detailTvStatus.text = movie.status
             detailTvYear.text = movie.releaseYear
-            supportActionBar?.setTitle(movie.title)
-            Glide.with(this@MovieDetailActivity)
-                .load(movie.imagePath)
-                .apply(
-                    RequestOptions.placeholderOf(R.drawable.ic_loading)
-                    .error(R.drawable.ic_error))
-                .into(detailIvPoster)
+            supportActionBar?.title = movie.title
+            Glide.with(this@DetailActivity)
+                    .load(movie.imagePath)
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading)
+                            .error(R.drawable.ic_error))
+                    .into(detailIvPoster)
         }
     }
 
@@ -62,5 +58,4 @@ class MovieDetailActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }

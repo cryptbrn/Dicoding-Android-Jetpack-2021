@@ -2,7 +2,7 @@ package com.example.filmify.data
 
 class Movies {
     data class Movies(
-            var movieId:String,
+            var id:String,
             var title: String,
             var description: String,
             var releaseYear: String,

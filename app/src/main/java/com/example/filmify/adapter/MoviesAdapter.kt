@@ -9,8 +9,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.filmify.R
 import com.example.filmify.data.Movies.Movies
 import com.example.filmify.databinding.ItemMoviesBinding
-import com.example.filmify.ui.MovieDetailActivity
-import com.example.filmify.ui.TvShowDetailActivity
+import com.example.filmify.ui.DetailActivity
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
     private var listMovies = ArrayList<Movies>()
@@ -40,8 +39,8 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
                 itemTvTitle.text = movie.title
                 itemTvDescription.text = movie.description
                 itemView.setOnClickListener {
-                    val intent = Intent(itemView.context,MovieDetailActivity::class.java)
-                    intent.putExtra("movie_id",movie.movieId)
+                    val intent = Intent(itemView.context,DetailActivity::class.java)
+                    intent.putExtra("id",movie.id)
                     itemView.context.startActivity(intent)
                 }
                 Glide.with(itemView.context)

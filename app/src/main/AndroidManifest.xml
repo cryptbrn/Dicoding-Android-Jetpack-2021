@@ -11,8 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmify">
-        <activity android:name=".ui.TvShowDetailActivity"/>
-        <activity android:name=".ui.MovieDetailActivity"/>
+        <activity android:name=".ui.DetailActivity"/>
         <activity android:name=".ui.MainActivity"/>
         <activity
             android:name=".ui.SplashActivity"

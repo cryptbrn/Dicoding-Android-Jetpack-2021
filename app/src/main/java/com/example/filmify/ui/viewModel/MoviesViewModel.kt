@@ -6,5 +6,4 @@ import com.example.filmify.utils.DataDummy
 
 class MoviesViewModel : ViewModel(){
     fun getMovies(): List<Movies> = DataDummy.generateDummyMovies()
-    fun getMovies(moviesId:Int) = DataDummy.generateDummyMovies()[moviesId-1]
 }

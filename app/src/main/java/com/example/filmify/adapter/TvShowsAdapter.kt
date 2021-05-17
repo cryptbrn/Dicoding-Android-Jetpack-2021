@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.filmify.R
-import com.example.filmify.data.TvShows.TvShows
+import com.example.filmify.data.Movies.Movies
 import com.example.filmify.databinding.ItemMoviesBinding
-import com.example.filmify.ui.TvShowDetailActivity
+import com.example.filmify.ui.DetailActivity
 
 class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() {
-    private var listTvShow = ArrayList<TvShows>()
+    private var listTvShow = ArrayList<Movies>()
 
-    fun setTvShows(tvshows: List<TvShows>?) {
+    fun setTvShows(tvshows: List<Movies>?) {
         if (tvshows == null) return
         this.listTvShow.clear()
         this.listTvShow.addAll(tvshows)
@@ -26,25 +26,25 @@ class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() 
     }
 
     override fun onBindViewHolder(holder: TvShowsViewHolder, position: Int) {
-        val tvshow = listTvShow[position]
-        holder.bind(tvshow)
+        val tvShow = listTvShow[position]
+        holder.bind(tvShow)
     }
 
     override fun getItemCount(): Int = listTvShow.size
 
 
     class TvShowsViewHolder(private val binding: ItemMoviesBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(tvshow: TvShows) {
+        fun bind(tvShow: Movies) {
             with(binding) {
-                itemTvTitle.text = tvshow.title
-                itemTvDescription.text = tvshow.description
+                itemTvTitle.text = tvShow.title
+                itemTvDescription.text = tvShow.description
                 itemView.setOnClickListener {
-                    val intent = Intent(itemView.context, TvShowDetailActivity::class.java)
-                    intent.putExtra("tv_show_id",tvshow.tvShowId)
+                    val intent = Intent(itemView.context, DetailActivity::class.java)
+                    intent.putExtra("id",tvShow.id)
                     itemView.context.startActivity(intent)
                 }
                 Glide.with(itemView.context)
-                        .load(tvshow.imagePath)
+                        .load(tvShow.imagePath)
                         .apply(RequestOptions.placeholderOf(R.drawable.ic_loading)
                                 .error(R.drawable.ic_error))
                         .into(itemIvPoster)
