@@ -6,7 +6,7 @@ import org.junit.Before
 import org.junit.Test
 
 
-class MoviesViewModelTest {
+class MovieViewModelTest {
     private lateinit var viewModel: MoviesViewModel
 
     @Before

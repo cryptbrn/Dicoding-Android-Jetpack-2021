@@ -32,7 +32,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setMovie(movie: Movies.Movies) {
+    private fun setMovie(movie: Movies.Movie) {
         with(binding){
             detailTvTitle.text = movie.title
             detailTvDescription.text = movie.description

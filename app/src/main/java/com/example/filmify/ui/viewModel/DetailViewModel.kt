@@ -1,14 +1,14 @@
 package com.example.filmify.ui.viewModel
 
 import androidx.lifecycle.ViewModel
-import com.example.filmify.data.Movies.Movies
+import com.example.filmify.data.Movies.Movie
 import com.example.filmify.utils.DataDummy
 
 class DetailViewModel : ViewModel() {
-    private lateinit var movie: Movies
+    private lateinit var movie: Movie
 
-    fun getDetails(id: String): Movies {
-        val movieList = arrayListOf<Movies>()
+    fun getDetails(id: String): Movie {
+        val movieList = arrayListOf<Movie>()
         movieList.addAll(DataDummy.generateDummyMovies())
         movieList.addAll(DataDummy.generateDummyTvShows())
         for (data in movieList){

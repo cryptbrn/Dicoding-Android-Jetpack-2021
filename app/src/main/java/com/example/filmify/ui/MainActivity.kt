@@ -1,13 +1,21 @@
 package com.example.filmify.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.filmify.R
 import com.example.filmify.adapter.HomePagerAdapter
 import com.example.filmify.databinding.ActivityMainBinding
+import com.example.filmify.ui.viewModel.MoviesViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    private val moviesViewModel: MoviesViewModel by viewModels()
+
+
+
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,4 +38,7 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
     }
+
+    fun getMoviesViewModels () = moviesViewModel
+
 }

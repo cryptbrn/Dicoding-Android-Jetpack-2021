@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.filmify.R
-import com.example.filmify.data.Movies.Movies
+import com.example.filmify.data.Movies.Movie
 import com.example.filmify.databinding.ItemMoviesBinding
 import com.example.filmify.ui.DetailActivity
 
 class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() {
-    private var listTvShow = ArrayList<Movies>()
+    private var listTvShow = ArrayList<Movie>()
 
-    fun setTvShows(tvShows: List<Movies>?) {
+    fun setTvShows(tvShows: List<Movie>?) {
         if (tvShows == null) return
         this.listTvShow.clear()
         this.listTvShow.addAll(tvShows)
@@ -34,7 +34,7 @@ class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() 
 
 
     class TvShowsViewHolder(private val binding: ItemMoviesBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(tvShow: Movies) {
+        fun bind(tvShow: Movie) {
             with(binding) {
                 itemTvTitle.text = tvShow.title
                 itemTvDescription.text = tvShow.description

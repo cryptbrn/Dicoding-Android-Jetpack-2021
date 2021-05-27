@@ -1,6 +1,6 @@
 package com.example.filmify.ui.viewModel
 
-import com.example.filmify.data.Movies.Movies
+import com.example.filmify.data.Movies.Movie
 import com.example.filmify.utils.DataDummy
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -9,7 +9,7 @@ import org.junit.Test
 
 class DetailViewModelTest {
     private lateinit var viewModel: DetailViewModel
-    private var dummyDetail: Movies = DataDummy.generateDummyTvShows()[5]
+    private var dummyDetail: Movie = DataDummy.generateDummyTvShows()[5]
 
     @Before
     fun setup() {
