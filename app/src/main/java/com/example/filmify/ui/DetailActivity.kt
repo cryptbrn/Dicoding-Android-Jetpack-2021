@@ -1,10 +1,17 @@
 package com.example.filmify.ui
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowId
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
@@ -26,6 +33,7 @@ class DetailActivity : AppCompatActivity() {
 
     private val viewModel: DetailViewModel by viewModels()
     private lateinit var type: String
+    private var id: Int? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,19 +43,39 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val extras = intent.extras
         if (extras != null) {
-            val id = extras.getInt("id")
+            id = extras.getInt("id")
             type = extras.getString("type").toString()
             if (id != null && type != null) {
-                viewModel.getDetails(id, type)
+                showProgress(true)
+                getDetails()
                 detailResponse()
             }
         }
     }
 
+    private fun getDetails() {
+        if(getConnectionType()){
+            viewModel.getDetails(id!!, type)
+        }
+        else {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Internet Connection Lost")
+            builder.setPositiveButton("REFRESH"){ _, _ ->
+                getDetails()
+            }
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.setCancelable(false)
+            alertDialog.show()
+        }
+    }
+
     private fun detailResponse() {
-        viewModel.detail.observe({lifecycle}, {
-            if(it.success){
+        viewModel.detail.observe({ lifecycle }, {
+            if (it.success) {
                 setMovie(it.result!!)
+            } else {
+                showProgress(false)
+                Toast.makeText(this, "Can't load detail from Internet", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -77,6 +105,7 @@ class DetailActivity : AppCompatActivity() {
                             .error(R.drawable.ic_error))
                     .into(detailIvPoster)
         }
+        showProgress(false)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -87,5 +116,42 @@ class DetailActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun showProgress(show: Boolean){
+        binding.detailProgress.visibility = if(show) View.VISIBLE else View.GONE
+        disableTouch(show)
+    }
+
+    private fun disableTouch(status: Boolean){
+        if(status){
+            window.setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+    }
+
+    private fun getConnectionType(): Boolean {
+        var result = false
+        val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        cm.run {
+            cm.getNetworkCapabilities(cm.activeNetwork)?.run {
+                when {
+                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                        result = true
+                    }
+                    hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                        result = true
+                    }
+                    hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> {
+                        result = true
+                    }
+                }
+            }
+        }
+        return result
     }
 }

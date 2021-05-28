@@ -1,10 +1,12 @@
 package com.example.filmify.ui.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,7 +39,8 @@ class MovieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if(activity != null){
             viewModel = (activity as MainActivity).getMoviesViewModels()
-            viewModel.getMovies()
+            showProgress(true)
+            getMovies()
             moviesAdapter = MoviesAdapter()
             moviesResponse()
             with(binding.rvMovies) {
@@ -48,11 +51,32 @@ class MovieFragment : Fragment() {
         }
     }
 
+    private fun getMovies(){
+        if((activity as MainActivity).getConnectionType()){
+            viewModel.getMovies()
+        }
+        else {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Internet Connection Lost")
+            builder.setPositiveButton("REFRESH"){ _, _ ->
+                getMovies()
+            }
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.setCancelable(false)
+            alertDialog.show()
+        }
+    }
+
     private fun moviesResponse() {
         viewModel.movies.observe(viewLifecycleOwner, Observer {
             if(it.success){
+                showProgress(false)
                 moviesAdapter.setMovies(it.results)
                 moviesAdapter.notifyDataSetChanged()
+            }
+            else{
+                showProgress(false)
+                Toast.makeText(context, "Can't load data from internet", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -60,6 +84,12 @@ class MovieFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun showProgress(show: Boolean){
+        binding.moviesProgress.bringToFront()
+        binding.moviesProgress.visibility = if(show) View.VISIBLE else View.GONE
+        if(activity!=null) (activity as MainActivity).disableTouch(show)
     }
 
 }

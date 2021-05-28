@@ -1,10 +1,12 @@
 package com.example.filmify.ui.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -38,7 +40,8 @@ class TvShowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
             viewModel = (activity as MainActivity).getTvShowsViewModels()
-            viewModel.getTvShows()
+            showProgress(true)
+            getTvShows()
             tvShowsAdapter = TvShowsAdapter()
             tvShowsResponse()
             with(binding.rvTvShows) {
@@ -49,11 +52,32 @@ class TvShowFragment : Fragment() {
         }
     }
 
+    private fun getTvShows(){
+        if((activity as MainActivity).getConnectionType()){
+            viewModel.getTvShows()
+        }
+        else {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Internet Connection Lost")
+            builder.setPositiveButton("REFRESH"){ _, _ ->
+                getTvShows()
+            }
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.setCancelable(false)
+            alertDialog.show()
+        }
+    }
+
+
     private fun tvShowsResponse() {
         viewModel.tvShows.observe(viewLifecycleOwner, Observer {
-            if(it.success){
+            if (it.success) {
+                showProgress(false)
                 tvShowsAdapter.setTvShows(it.results)
                 tvShowsAdapter.notifyDataSetChanged()
+            } else {
+                showProgress(false)
+                Toast.makeText(context, "Can't load data from internet", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -61,6 +85,12 @@ class TvShowFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun showProgress(show: Boolean){
+        binding.tvShowsProgress.bringToFront()
+        binding.tvShowsProgress.visibility = if(show) View.VISIBLE else View.GONE
+        if(activity!=null) (activity as MainActivity).disableTouch(show)
     }
 
 }
