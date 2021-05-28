@@ -48,12 +48,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/status"
+                        android:text="@string/original_title"
                         android:textColor="@color/white"
                         android:layout_marginTop="10dp"/>
 
                     <TextView
-                        android:id="@+id/detail_tv_status"
+                        android:id="@+id/detail_tv_ori_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"

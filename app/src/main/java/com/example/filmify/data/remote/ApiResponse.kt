@@ -2,9 +2,14 @@ package com.example.filmify.data.remote
 
 
 object ApiResponse {
-    data class Result(
+    data class Results(
         var success: Boolean,
         val results: List<MoviesResponse>?,
+    )
+
+    data class Result(
+            var success: Boolean,
+            val result: MoviesResponse?
     )
 
     data class MoviesResponse(

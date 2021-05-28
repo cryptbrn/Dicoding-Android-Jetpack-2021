@@ -7,12 +7,14 @@ import com.example.filmify.R
 import com.example.filmify.adapter.HomePagerAdapter
 import com.example.filmify.databinding.ActivityMainBinding
 import com.example.filmify.ui.viewModel.MoviesViewModel
+import com.example.filmify.ui.viewModel.TvShowViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val moviesViewModel: MoviesViewModel by viewModels()
+    private val tvShowsViewModel: TvShowViewModel by viewModels()
 
 
 
@@ -40,5 +42,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getMoviesViewModels () = moviesViewModel
+
+    fun getTvShowsViewModels () = tvShowsViewModel
 
 }

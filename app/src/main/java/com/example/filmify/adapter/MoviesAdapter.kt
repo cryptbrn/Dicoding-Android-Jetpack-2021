@@ -42,10 +42,11 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context,DetailActivity::class.java)
                     intent.putExtra("id",movie.id)
+                    intent.putExtra("type","movie")
                     itemView.context.startActivity(intent)
                 }
                 Glide.with(itemView.context)
-                        .load(movie.poster_path)
+                        .load("https://image.tmdb.org/t/p/w500"+movie.poster_path)
                         .apply(RequestOptions.placeholderOf(R.drawable.ic_loading)
                                 .error(R.drawable.ic_error))
                         .into(itemIvPoster)
