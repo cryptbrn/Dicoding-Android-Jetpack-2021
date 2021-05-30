@@ -2,21 +2,17 @@ package com.example.filmify.ui.fragment
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.filmify.adapter.MoviesAdapter
 import com.example.filmify.adapter.TvShowsAdapter
 import com.example.filmify.databinding.FragmentTvShowsBinding
 import com.example.filmify.ui.MainActivity
-import com.example.filmify.ui.viewModel.MoviesViewModel
 import com.example.filmify.ui.viewModel.TvShowViewModel
+import com.example.filmify.utils.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,6 +50,7 @@ class TvShowFragment : Fragment() {
 
     private fun getTvShows(){
         if((activity as MainActivity).getConnectionType()){
+            EspressoIdlingResource.increment()
             viewModel.getTvShows()
         }
         else {
@@ -70,7 +67,10 @@ class TvShowFragment : Fragment() {
 
 
     private fun tvShowsResponse() {
-        viewModel.tvShows.observe(viewLifecycleOwner, Observer {
+        viewModel.tvShows.observe(viewLifecycleOwner, {
+            if(!EspressoIdlingResource.idlingResource.isIdleNow){
+                EspressoIdlingResource.decrement()
+            }
             if (it.success) {
                 showProgress(false)
                 tvShowsAdapter.setTvShows(it.results)

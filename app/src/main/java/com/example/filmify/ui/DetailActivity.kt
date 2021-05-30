@@ -6,25 +6,19 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowId
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.filmify.R
-import com.example.filmify.data.Movies
 import com.example.filmify.data.remote.ApiResponse
 import com.example.filmify.databinding.ActivityDetailBinding
 import com.example.filmify.ui.viewModel.DetailViewModel
-import com.example.filmify.ui.viewModel.TvShowViewModel
+import com.example.filmify.utils.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,7 +39,7 @@ class DetailActivity : AppCompatActivity() {
         if (extras != null) {
             id = extras.getInt("id")
             type = extras.getString("type").toString()
-            if (id != null && type != null) {
+            if (id != null) {
                 showProgress(true)
                 getDetails()
                 detailResponse()
@@ -55,6 +49,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun getDetails() {
         if(getConnectionType()){
+            EspressoIdlingResource.increment()
             viewModel.getDetails(id!!, type)
         }
         else {
@@ -71,6 +66,9 @@ class DetailActivity : AppCompatActivity() {
 
     private fun detailResponse() {
         viewModel.detail.observe({ lifecycle }, {
+            if(!EspressoIdlingResource.idlingResource.isIdleNow){
+                EspressoIdlingResource.decrement()
+            }
             if (it.success) {
                 setMovie(it.result!!)
             } else {

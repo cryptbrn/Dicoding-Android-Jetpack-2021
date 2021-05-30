@@ -2,7 +2,6 @@ package com.example.filmify.ui.fragment
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.example.filmify.adapter.MoviesAdapter
 import com.example.filmify.databinding.FragmentMoviesBinding
 import com.example.filmify.ui.MainActivity
 import com.example.filmify.ui.viewModel.MoviesViewModel
+import com.example.filmify.utils.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,6 +53,7 @@ class MovieFragment : Fragment() {
 
     private fun getMovies(){
         if((activity as MainActivity).getConnectionType()){
+            EspressoIdlingResource.increment()
             viewModel.getMovies()
         }
         else {
@@ -68,7 +69,10 @@ class MovieFragment : Fragment() {
     }
 
     private fun moviesResponse() {
-        viewModel.movies.observe(viewLifecycleOwner, Observer {
+        viewModel.movies.observe(viewLifecycleOwner, {
+            if(!EspressoIdlingResource.idlingResource.isIdleNow){
+                EspressoIdlingResource.decrement()
+            }
             if(it.success){
                 showProgress(false)
                 moviesAdapter.setMovies(it.results)

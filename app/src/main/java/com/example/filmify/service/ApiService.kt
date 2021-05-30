@@ -15,7 +15,6 @@ interface ApiService {
     suspend fun getTvShows():
             Response<ApiResponse.Results>
 
-
     @GET()
     suspend fun getTvShow(@Url url: String):
             Response<ApiResponse.MoviesResponse>

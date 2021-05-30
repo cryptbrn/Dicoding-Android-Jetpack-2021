@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.filmify.R
-import com.example.filmify.data.Movies.Movie
 import com.example.filmify.data.remote.ApiResponse
 import com.example.filmify.databinding.ItemMoviesBinding
 import com.example.filmify.ui.DetailActivity

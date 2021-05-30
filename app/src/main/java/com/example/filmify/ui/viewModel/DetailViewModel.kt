@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.filmify.data.Movies.Movie
 import com.example.filmify.data.remote.ApiResponse
 import com.example.filmify.repository.Repository
-import com.example.filmify.utils.DataDummy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
