@@ -2,7 +2,7 @@ package com.example.filmify.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.filmify.CoroutinesRule
-import com.example.filmify.data.remote.ApiResponse
+import com.example.filmify.model.ApiResponse
 import com.example.filmify.service.ApiService
 import com.example.filmify.utils.DataDummy
 import kotlinx.coroutines.ExperimentalCoroutinesApi

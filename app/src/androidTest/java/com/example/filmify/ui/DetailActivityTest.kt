@@ -10,7 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.example.filmify.R
-import com.example.filmify.data.remote.ApiResponse
+import com.example.filmify.model.ApiResponse
 import com.example.filmify.utils.EspressoIdlingResource
 import org.junit.After
 import org.junit.Before

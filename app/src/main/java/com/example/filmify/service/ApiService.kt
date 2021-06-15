@@ -1,6 +1,6 @@
 package com.example.filmify.service
 
-import com.example.filmify.data.remote.ApiResponse
+import com.example.filmify.model.ApiResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Url
