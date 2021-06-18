@@ -3,6 +3,7 @@ package com.example.filmify.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.filmify.CoroutinesRule
 import com.example.filmify.model.ApiResponse
+import com.example.filmify.model.Movies
 import com.example.filmify.service.ApiService
 import com.example.filmify.utils.DataDummy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,8 +23,8 @@ import retrofit2.Response
 @RunWith(MockitoJUnitRunner::class)
 class DefaultRepositoryTest{
     private lateinit var repository: Repository
-    private var dummyMovieDetail: ApiResponse.MoviesResponse = DataDummy.generateDummyMovies()[0]
-    private var dummyTvShowDetail: ApiResponse.MoviesResponse = DataDummy.generateDummyTvShows()[0]
+    private var dummyMovieDetail: Movies = DataDummy.generateDummyMovies()[0]
+    private var dummyTvShowDetail: Movies = DataDummy.generateDummyTvShows()[0]
 
     @get:Rule
     var mainCoroutineRule = CoroutinesRule.MainCoroutineRule()
@@ -74,7 +75,7 @@ class DefaultRepositoryTest{
 
     @Test
     fun getMovie() = mainCoroutineRule.runBlockingTest {
-        val response : Response<ApiResponse.MoviesResponse> = Response.success(DataDummy.generateDummyMovies()[0])
+        val response : Response<Movies> = Response.success(DataDummy.generateDummyMovies()[0])
         Mockito.`when`(api.getMovie("https://api.themoviedb.org/3/movie/1")).thenReturn(response)
         val movie = repository.getMovie("https://api.themoviedb.org/3/movie/1")
         Mockito.verify(api).getMovie("https://api.themoviedb.org/3/movie/1")
@@ -93,7 +94,7 @@ class DefaultRepositoryTest{
 
     @Test
     fun getTvShow() = mainCoroutineRule.runBlockingTest {
-        val response : Response<ApiResponse.MoviesResponse> = Response.success(DataDummy.generateDummyTvShows()[0])
+        val response : Response<Movies> = Response.success(DataDummy.generateDummyTvShows()[0])
         Mockito.`when`(api.getTvShow("https://api.themoviedb.org/3/tv/1")).thenReturn(response)
         val tvShow = repository.getTvShow("https://api.themoviedb.org/3/tv/1")
         Mockito.verify(api).getTvShow("https://api.themoviedb.org/3/tv/1")

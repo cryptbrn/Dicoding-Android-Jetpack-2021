@@ -9,12 +9,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.filmify.R
 import com.example.filmify.model.ApiResponse
 import com.example.filmify.databinding.ItemMoviesBinding
+import com.example.filmify.model.Movies
 import com.example.filmify.ui.DetailActivity
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
-    private var listMovies = ArrayList<ApiResponse.MoviesResponse>()
+    private var listMovies = ArrayList<Movies>()
 
-    fun setMovies(movies: List<ApiResponse.MoviesResponse>?) {
+    fun setMovies(movies: List<Movies>?) {
         if (movies == null) return
         this.listMovies.clear()
         this.listMovies.addAll(movies)
@@ -34,7 +35,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
 
     class MoviesViewHolder(private val binding: ItemMoviesBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(movie: ApiResponse.MoviesResponse) {
+        fun bind(movie: Movies) {
             with(binding) {
                 itemTvTitle.text = movie.title
                 itemTvDescription.text = movie.overview

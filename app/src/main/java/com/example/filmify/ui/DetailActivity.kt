@@ -17,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.filmify.R
 import com.example.filmify.model.ApiResponse
 import com.example.filmify.databinding.ActivityDetailBinding
+import com.example.filmify.model.Movies
 import com.example.filmify.ui.viewModel.DetailViewModel
 import com.example.filmify.utils.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,7 +80,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setMovie(movie: ApiResponse.MoviesResponse) {
+    private fun setMovie(movie: Movies) {
         with(binding){
             if(type=="movie"){
                 detailTvTitle.text = movie.title

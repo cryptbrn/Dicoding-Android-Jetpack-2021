@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.filmify.model.ApiResponse
+import com.example.filmify.model.Movies
 import com.example.filmify.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -35,10 +36,10 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
         _detail.postValue(handleDetailResponse(response))
     }
 
-    private fun handleDetailResponse(response: Response<ApiResponse.MoviesResponse>): ApiResponse.Result {
+    private fun handleDetailResponse(response: Response<Movies>): ApiResponse.Result {
         if(response.isSuccessful) {
             response.body()?.let { resultResponse ->
-                return ApiResponse.Result(true, ApiResponse.MoviesResponse(resultResponse.id,resultResponse.original_language,resultResponse.overview,
+                return ApiResponse.Result(true, Movies(resultResponse.id,resultResponse.original_language,resultResponse.overview,
                         resultResponse.poster_path,resultResponse.release_date,resultResponse.first_air_date,resultResponse.original_name,
                         resultResponse.original_title,resultResponse.title,resultResponse.name,resultResponse.vote_average))
             }

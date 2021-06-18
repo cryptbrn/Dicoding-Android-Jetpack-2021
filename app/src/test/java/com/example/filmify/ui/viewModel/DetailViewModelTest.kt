@@ -3,6 +3,7 @@ package com.example.filmify.ui.viewModel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.filmify.CoroutinesRule
 import com.example.filmify.model.ApiResponse
+import com.example.filmify.model.Movies
 import com.example.filmify.repository.Repository
 import com.example.filmify.utils.DataDummy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,8 +23,8 @@ import retrofit2.Response
 @RunWith(MockitoJUnitRunner::class)
 class DetailViewModelTest {
     private lateinit var viewModel: DetailViewModel
-    private var dummyMovieDetail: ApiResponse.MoviesResponse = DataDummy.generateDummyMovies()[0]
-    private var dummyTvShowDetail: ApiResponse.MoviesResponse = DataDummy.generateDummyTvShows()[0]
+    private var dummyMovieDetail: Movies = DataDummy.generateDummyMovies()[0]
+    private var dummyTvShowDetail: Movies = DataDummy.generateDummyTvShows()[0]
 
     @get:Rule
     var mainCoroutineRule = CoroutinesRule.MainCoroutineRule()
@@ -48,7 +49,7 @@ class DetailViewModelTest {
 
     @Test
     fun getMovieDetails() = mainCoroutineRule.runBlockingTest {
-        val response : Response<ApiResponse.MoviesResponse> = Response.success(DataDummy.generateDummyMovies()[0])
+        val response : Response<Movies> = Response.success(DataDummy.generateDummyMovies()[0])
         Mockito.`when`(repository.getMovie("https://api.themoviedb.org/3/movie/1")).thenReturn(response)
         viewModel.getDetails(1,"movie")
         Mockito.verify(repository).getMovie("https://api.themoviedb.org/3/movie/1")
@@ -67,7 +68,7 @@ class DetailViewModelTest {
 
     @Test
     fun getTvShowDetails() = mainCoroutineRule.runBlockingTest {
-        val response : Response<ApiResponse.MoviesResponse> = Response.success(DataDummy.generateDummyTvShows()[0])
+        val response : Response<Movies> = Response.success(DataDummy.generateDummyTvShows()[0])
         Mockito.`when`(repository.getTvShow("https://api.themoviedb.org/3/tv/1")).thenReturn(response)
         viewModel.getDetails(1,"tvshow")
         Mockito.verify(repository).getTvShow("https://api.themoviedb.org/3/tv/1")

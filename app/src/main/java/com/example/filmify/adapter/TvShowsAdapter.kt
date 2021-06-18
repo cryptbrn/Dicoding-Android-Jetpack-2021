@@ -9,12 +9,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.filmify.R
 import com.example.filmify.model.ApiResponse
 import com.example.filmify.databinding.ItemMoviesBinding
+import com.example.filmify.model.Movies
 import com.example.filmify.ui.DetailActivity
 
 class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() {
-    private var listTvShow = ArrayList<ApiResponse.MoviesResponse>()
+    private var listTvShow = ArrayList<Movies>()
 
-    fun setTvShows(tvShows: List<ApiResponse.MoviesResponse>?) {
+    fun setTvShows(tvShows: List<Movies>?) {
         if (tvShows == null) return
         this.listTvShow.clear()
         this.listTvShow.addAll(tvShows)
@@ -34,7 +35,7 @@ class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() 
 
 
     class TvShowsViewHolder(private val binding: ItemMoviesBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(tvShow: ApiResponse.MoviesResponse) {
+        fun bind(tvShow: Movies) {
             with(binding) {
                 itemTvTitle.text = tvShow.name
                 itemTvDescription.text = tvShow.overview
