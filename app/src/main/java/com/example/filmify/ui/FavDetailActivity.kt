@@ -23,7 +23,7 @@ import com.example.filmify.utils.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailActivity : AppCompatActivity() {
+class FavDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
 
     private val viewModel: DetailViewModel by viewModels()
@@ -134,7 +134,7 @@ class DetailActivity : AppCompatActivity() {
             detailTvLanguage.text = movie.original_language
             detailTvRating.text = "User Rating : ${movie.vote_average}"
 
-            Glide.with(this@DetailActivity)
+            Glide.with(this@FavDetailActivity)
                     .load("https://image.tmdb.org/t/p/w500"+movie.poster_path)
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading)
                             .error(R.drawable.ic_error))

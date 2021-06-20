@@ -17,6 +17,8 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
     private val _detail: MutableLiveData<ApiResponse.Result> = MutableLiveData()
     val detail: LiveData<ApiResponse.Result> = _detail
 
+    lateinit var data: LiveData<Movies>
+
     fun getDetails(id: Int, type: String){
         if(type=="movie"){
             getMovie(id)
@@ -26,6 +28,12 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
         }
     }
 
+    fun getSavedMovie(id: Int){
+        data = repository.getSavedMovie(id)
+    }
+
+
+
     private fun getMovie(id: Int) = viewModelScope.launch {
         val response = repository.getMovie("https://api.themoviedb.org/3/movie/$id")
         _detail.postValue(handleDetailResponse(response))
@@ -34,6 +42,14 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
     private fun getTvShow(id: Int) = viewModelScope.launch {
         val response = repository.getTvShow("https://api.themoviedb.org/3/tv/$id")
         _detail.postValue(handleDetailResponse(response))
+    }
+
+    fun insertMovie(movie: Movies) = viewModelScope.launch {
+        repository.saveMovie(movie)
+    }
+
+    fun deleteMovie(movie: Movies) = viewModelScope.launch {
+        repository.deleteMovie(movie)
     }
 
     private fun handleDetailResponse(response: Response<Movies>): ApiResponse.Result {

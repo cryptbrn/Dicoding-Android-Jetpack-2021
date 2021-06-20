@@ -93,13 +93,15 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:background="@drawable/background_rating"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="10dp"
-                android:paddingVertical="15dp">
+                android:padding="15dp"
+                android:gravity="center">
                 <TextView
                     android:id="@+id/detail_tv_rating"
                     android:layout_width="wrap_content"
@@ -109,9 +111,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:textStyle="bold"
+                    android:text="User Rating: 8.6"
                     android:textColor="@color/black"/>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/detail_iv_fav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_favorite_border"
+                    android:layout_marginStart="10dp"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

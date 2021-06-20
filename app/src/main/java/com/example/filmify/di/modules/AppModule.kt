@@ -12,7 +12,8 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class AppModule {
+object AppModule {
+
     @Singleton
     @Provides
     fun provideMovieDatabase(
@@ -21,7 +22,7 @@ class AppModule {
         app,
         MovieDatabase::class.java,
         "movies_db.db"
-    ).build()
+    ).allowMainThreadQueries().build()
 
     @Singleton
     @Provides

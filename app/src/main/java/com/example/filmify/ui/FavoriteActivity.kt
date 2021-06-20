@@ -1,18 +1,19 @@
 package com.example.filmify.ui
 
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.filmify.R
+import com.example.filmify.adapter.FavoritePagerAdapter
 import com.example.filmify.adapter.HomePagerAdapter
+import com.example.filmify.databinding.ActivityFavoriteBinding
 import com.example.filmify.databinding.ActivityMainBinding
+import com.example.filmify.ui.viewModel.FavoriteViewModel
 import com.example.filmify.ui.viewModel.MoviesViewModel
 import com.example.filmify.ui.viewModel.TvShowViewModel
 import com.google.android.material.tabs.TabLayoutMediator
@@ -20,19 +21,21 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    private val moviesViewModel: MoviesViewModel by viewModels()
-    private val tvShowsViewModel: TvShowViewModel by viewModels()
+class FavoriteActivity : AppCompatActivity() {
+    private val favViewModel: FavoriteViewModel by viewModels()
 
-    private lateinit var binding: ActivityMainBinding
+
+
+    private lateinit var binding: ActivityFavoriteBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Favorite"
 
-
-        val adapter= HomePagerAdapter(supportFragmentManager, lifecycle)
+        val adapter= FavoritePagerAdapter(supportFragmentManager, lifecycle)
         binding.viewPager.adapter = adapter
 
 
@@ -48,25 +51,7 @@ class MainActivity : AppCompatActivity() {
         }.attach()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.favorite_btn-> {
-                val intent = Intent(this, FavoriteActivity::class.java)
-                startActivity(intent)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    fun getMoviesViewModels () = moviesViewModel
-
-    fun getTvShowsViewModels () = tvShowsViewModel
+    fun getFavViewModels () = favViewModel
 
     fun disableTouch(status: Boolean){
         if(status){
@@ -78,6 +63,17 @@ class MainActivity : AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 
     fun getConnectionType(): Boolean {
         var result = false
@@ -99,7 +95,5 @@ class MainActivity : AppCompatActivity() {
         }
         return result
     }
-
-
 
 }
