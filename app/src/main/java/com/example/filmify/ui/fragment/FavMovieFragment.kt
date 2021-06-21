@@ -21,8 +21,6 @@ class FavMovieFragment : Fragment() {
     private lateinit var moviesListAdapter: FavoritePagedListAdapter
     private lateinit var viewModel: FavoriteViewModel
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,7 +46,7 @@ class FavMovieFragment : Fragment() {
     }
 
     private fun moviesResponse() {
-        viewModel.movies.observe(viewLifecycleOwner, {
+        viewModel.getSavedMovies().observe(viewLifecycleOwner, {
             if(!EspressoIdlingResource.idlingResource.isIdleNow){
                 EspressoIdlingResource.decrement()
             }

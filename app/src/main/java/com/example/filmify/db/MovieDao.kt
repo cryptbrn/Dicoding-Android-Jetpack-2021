@@ -22,7 +22,4 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE id=:id")
     fun getMovie(id:Int): LiveData<Movies>
 
-
-
-
 }

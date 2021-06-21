@@ -1,8 +1,8 @@
 package com.example.filmify.ui.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
 import com.example.filmify.CoroutinesRule
-import com.example.filmify.model.ApiResponse
 import com.example.filmify.model.Movies
 import com.example.filmify.repository.Repository
 import com.example.filmify.utils.DataDummy
@@ -15,7 +15,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 import retrofit2.Response
 
@@ -50,9 +51,9 @@ class DetailViewModelTest {
     @Test
     fun getMovieDetails() = mainCoroutineRule.runBlockingTest {
         val response : Response<Movies> = Response.success(DataDummy.generateDummyMovies()[0])
-        Mockito.`when`(repository.getMovie("https://api.themoviedb.org/3/movie/1")).thenReturn(response)
+        `when`(repository.getMovie("https://api.themoviedb.org/3/movie/1")).thenReturn(response)
         viewModel.getDetails(1,"movie")
-        Mockito.verify(repository).getMovie("https://api.themoviedb.org/3/movie/1")
+        verify(repository).getMovie("https://api.themoviedb.org/3/movie/1")
         val detail = viewModel.detail
         assertNotNull(detail)
         assertEquals(detail.value!!.result!!.id, dummyMovieDetail.id)
@@ -69,9 +70,9 @@ class DetailViewModelTest {
     @Test
     fun getTvShowDetails() = mainCoroutineRule.runBlockingTest {
         val response : Response<Movies> = Response.success(DataDummy.generateDummyTvShows()[0])
-        Mockito.`when`(repository.getTvShow("https://api.themoviedb.org/3/tv/1")).thenReturn(response)
+        `when`(repository.getTvShow("https://api.themoviedb.org/3/tv/1")).thenReturn(response)
         viewModel.getDetails(1,"tvshow")
-        Mockito.verify(repository).getTvShow("https://api.themoviedb.org/3/tv/1")
+        verify(repository).getTvShow("https://api.themoviedb.org/3/tv/1")
         val detail = viewModel.detail
         assertNotNull(detail)
         assertEquals(detail.value!!.result!!.id, dummyTvShowDetail.id)
@@ -82,6 +83,42 @@ class DetailViewModelTest {
         assertEquals(detail.value!!.result!!.original_name, dummyTvShowDetail.original_name)
         assertEquals(detail.value!!.result!!.name, dummyTvShowDetail.name)
         assertEquals(detail.value!!.result!!.vote_average, dummyTvShowDetail.vote_average, 0.0)
+    }
+
+    @Test
+    fun insertMovie() = mainCoroutineRule.runBlockingTest {
+        val data: MutableList<Movies> = mutableListOf()
+        `when`(repository.saveMovie(dummyMovieDetail)).then {
+            data.add(dummyMovieDetail)
+        }
+        viewModel.insertMovie(dummyMovieDetail)
+        verify(repository).saveMovie(dummyMovieDetail)
+        assertNotNull(data)
+        assertEquals(data.size,1)
+    }
+
+    @Test
+    fun deleteMovie() = mainCoroutineRule.runBlockingTest {
+        val data: MutableList<Movies> = mutableListOf(dummyMovieDetail)
+        `when`(repository.deleteMovie(dummyMovieDetail)).then {
+            data.remove(dummyMovieDetail)
+        }
+        viewModel.deleteMovie(dummyMovieDetail)
+        verify(repository).deleteMovie(dummyMovieDetail)
+        assertNotNull(data)
+        assertEquals(data.size,0)
+    }
+
+    @Test
+    fun getSavedMovie() {
+        val response = MutableLiveData<Movies>()
+        response.value = DataDummy.generateDummyMovies()[0]
+        `when`(repository.getSavedMovie(1)).thenReturn(response)
+        viewModel.getSavedMovie(1)
+        val data = viewModel.data
+        verify(repository).getSavedMovie(1)
+        assertNotNull(data)
+        assertEquals(dummyMovieDetail.title, data.value!!.title)
     }
 
 }

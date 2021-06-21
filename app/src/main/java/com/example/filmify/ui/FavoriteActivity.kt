@@ -1,8 +1,5 @@
 package com.example.filmify.ui
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.WindowManager
@@ -10,12 +7,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.filmify.R
 import com.example.filmify.adapter.FavoritePagerAdapter
-import com.example.filmify.adapter.HomePagerAdapter
 import com.example.filmify.databinding.ActivityFavoriteBinding
-import com.example.filmify.databinding.ActivityMainBinding
 import com.example.filmify.ui.viewModel.FavoriteViewModel
-import com.example.filmify.ui.viewModel.MoviesViewModel
-import com.example.filmify.ui.viewModel.TvShowViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,8 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FavoriteActivity : AppCompatActivity() {
     private val favViewModel: FavoriteViewModel by viewModels()
-
-
 
     private lateinit var binding: ActivityFavoriteBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,27 +64,4 @@ class FavoriteActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-
-    fun getConnectionType(): Boolean {
-        var result = false
-        val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        cm.run {
-            cm.getNetworkCapabilities(cm.activeNetwork)?.run {
-                when {
-                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-                        result = true
-                    }
-                    hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                        result = true
-                    }
-                    hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> {
-                        result = true
-                    }
-                }
-            }
-        }
-        return result
-    }
-
 }

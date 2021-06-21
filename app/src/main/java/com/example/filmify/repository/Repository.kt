@@ -1,7 +1,7 @@
 
 package com.example.filmify.repository
 
-import android.util.Log
+import androidx.paging.LivePagedListBuilder
 import com.example.filmify.db.MovieDao
 import com.example.filmify.model.Movies
 import com.example.filmify.service.ApiService
@@ -14,8 +14,8 @@ class Repository @Inject constructor(private val api : ApiService, private val m
     suspend fun getTvShow(url: String) = api.getTvShow(url)
     suspend fun saveMovie(movie: Movies) =  movieDao.insertMovie(movie)
     suspend fun deleteMovie(movie: Movies) = movieDao.deleteMovie(movie)
-    fun getSavedMovies() = movieDao.getAllMovies()
-    fun getSavedTvShows() = movieDao.getAllTvShows()
+    fun getSavedMovies() = LivePagedListBuilder(movieDao.getAllMovies(), 5).build()
+    fun getSavedTvShows() = LivePagedListBuilder(movieDao.getAllTvShows(), 5).build()
     fun getSavedMovie(id: Int) = movieDao.getMovie(id)
 
 
