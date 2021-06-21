@@ -1,15 +1,12 @@
 package com.example.filmify.ui.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.paging.DataSource
 import androidx.paging.PagedList
 import com.example.filmify.model.Movies
 import com.example.filmify.repository.Repository
 import com.example.filmify.utils.DataDummy
-import com.example.filmify.utils.PagedListUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Before
@@ -17,7 +14,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
@@ -26,14 +22,18 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class FavoriteViewModelTest {
     private lateinit var viewModel: FavoriteViewModel
-    private var dummyMoviesDetail = DataDummy.generateDummyMovies()
-    private var dummyTvShowsDetail = DataDummy.generateDummyTvShows()
-
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Mock
     private lateinit var repository: Repository
+
+    @Mock
+    private lateinit var observer: Observer<PagedList<Movies>>
+
+    @Mock
+    private lateinit var pagedList: PagedList<Movies>
+
 
     @Before
     fun setup() {
@@ -42,23 +42,39 @@ class FavoriteViewModelTest {
 
     @Test
     fun getSavedMovies() {
-        val response = MutableLiveData(PagedListUtil.mockPagedList(DataDummy.generateDummyMovies()))
-        `when`(repository.getSavedMovies()).thenReturn(response)
+        val data = pagedList
+        `when`(data.size).thenReturn(10)
+        val dummyFavoriteMovies = MutableLiveData<PagedList<Movies>>()
+        dummyFavoriteMovies.value = data
+
+        `when`(repository.getSavedMovies()).thenReturn(dummyFavoriteMovies)
         val movies = viewModel.getSavedMovies()
         verify(repository).getSavedMovies()
         assertNotNull(movies)
-        assertEquals(dummyMoviesDetail.size, movies.value!!.size)
+        assertEquals(10, movies.value!!.size)
+
+        viewModel.getSavedMovies().observeForever(observer)
+        verify(observer).onChanged(pagedList)
     }
 
     @Test
     fun getSavedTvShows() {
-        val response = MutableLiveData(PagedListUtil.mockPagedList(DataDummy.generateDummyTvShows()))
-        `when`(repository.getSavedTvShows()).thenReturn(response)
+        val data = pagedList
+        `when`(data.size).thenReturn(10)
+        val dummyFavoriteTvShows = MutableLiveData<PagedList<Movies>>()
+        dummyFavoriteTvShows.value = data
+
+        `when`(repository.getSavedTvShows()).thenReturn(dummyFavoriteTvShows)
         val tvShows = viewModel.getSavedTvShows()
         verify(repository).getSavedTvShows()
         assertNotNull(tvShows)
-        assertEquals(dummyTvShowsDetail.size, tvShows.value!!.size)
+        assertEquals(10, tvShows.value!!.size)
+
+        viewModel.getSavedTvShows().observeForever(observer)
+        verify(observer).onChanged(pagedList)
     }
+
+
 
 
 }
