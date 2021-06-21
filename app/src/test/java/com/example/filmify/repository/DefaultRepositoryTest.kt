@@ -1,7 +1,6 @@
 package com.example.filmify.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import com.example.filmify.CoroutinesRule
@@ -14,7 +13,8 @@ import com.example.filmify.utils.LiveDataTestUtil
 import com.example.filmify.utils.PagedListUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

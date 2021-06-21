@@ -6,9 +6,9 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.example.filmify.model.Movies
 import com.example.filmify.repository.Repository
-import com.example.filmify.utils.DataDummy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

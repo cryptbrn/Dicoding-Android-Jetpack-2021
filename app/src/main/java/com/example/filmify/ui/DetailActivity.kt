@@ -89,6 +89,9 @@ class DetailActivity : AppCompatActivity() {
         if(status){
             viewModel.data.observe({ lifecycle }, {
                 if(it!=null){
+                    if(!EspressoIdlingResource.idlingResource.isIdleNow){
+                        EspressoIdlingResource.decrement()
+                    }
                     data = it
                     setMovie(it)
                 }

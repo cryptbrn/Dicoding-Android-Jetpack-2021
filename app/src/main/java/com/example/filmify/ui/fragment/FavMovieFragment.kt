@@ -34,6 +34,7 @@ class FavMovieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if(activity != null){
             viewModel = (activity as FavoriteActivity).getFavViewModels()
+            EspressoIdlingResource.increment()
             showProgress(true)
             moviesListAdapter = FavoritePagedListAdapter()
             moviesResponse()

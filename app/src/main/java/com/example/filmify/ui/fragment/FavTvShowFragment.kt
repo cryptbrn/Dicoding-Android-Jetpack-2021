@@ -34,6 +34,7 @@ class FavTvShowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
             viewModel = (activity as FavoriteActivity).getFavViewModels()
+            EspressoIdlingResource.increment()
             showProgress(true)
             tvShowsAdapter = FavoritePagedListAdapter()
             tvShowsResponse()
