@@ -22,7 +22,7 @@ object AppModule {
         app,
         MovieDatabase::class.java,
         "movies_db.db"
-    ).allowMainThreadQueries().build()
+    ).build()
 
     @Singleton
     @Provides

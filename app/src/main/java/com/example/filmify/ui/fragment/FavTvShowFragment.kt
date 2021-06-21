@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.filmify.adapter.FavoritePagedListAdapter
 import com.example.filmify.adapter.TvShowsAdapter
 import com.example.filmify.databinding.FragmentFavTvShowBinding
 import com.example.filmify.ui.FavoriteActivity
@@ -22,7 +23,7 @@ class FavTvShowFragment : Fragment() {
     private var _binding: FragmentFavTvShowBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var tvShowsAdapter: TvShowsAdapter
+    private lateinit var tvShowsAdapter: FavoritePagedListAdapter
     private lateinit var viewModel: FavoriteViewModel
 
     override fun onCreateView(
@@ -39,7 +40,7 @@ class FavTvShowFragment : Fragment() {
         if (activity != null) {
             viewModel = (activity as FavoriteActivity).getFavViewModels()
             showProgress(true)
-            tvShowsAdapter = TvShowsAdapter()
+            tvShowsAdapter = FavoritePagedListAdapter()
             tvShowsResponse()
             with(binding.rvFavTvShows) {
                 layoutManager = LinearLayoutManager(context)
@@ -55,8 +56,7 @@ class FavTvShowFragment : Fragment() {
                 EspressoIdlingResource.decrement()
             }
             showProgress(false)
-            tvShowsAdapter.setTvShows(it)
-            tvShowsAdapter.notifyDataSetChanged()
+            tvShowsAdapter.submitList(it)
         })
     }
 

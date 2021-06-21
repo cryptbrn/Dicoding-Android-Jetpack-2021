@@ -44,15 +44,13 @@ class DetailActivity : AppCompatActivity() {
             type = extras.getString("type").toString()
             if (id != null) {
                 showProgress(true)
-                getDetails()
-                detailResponse()
+                getStatus()
             }
         }
         onClick()
     }
 
     private fun onClick() {
-
         binding.detailIvFav.setOnClickListener {
             if(status){
                 viewModel.deleteMovie(data)
@@ -60,48 +58,64 @@ class DetailActivity : AppCompatActivity() {
             else {
                 viewModel.insertMovie(data)
             }
-
-            getStatus(data)
+            getStatus()
         }
     }
 
     private fun getDetails() {
-        if(getConnectionType()){
+        if(status){
             EspressoIdlingResource.increment()
-            viewModel.getDetails(id!!, type)
+            viewModel.getSavedMovie(id!!)
         }
         else {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Internet Connection Lost")
-            builder.setPositiveButton("REFRESH"){ _, _ ->
-                getDetails()
+            if(getConnectionType()){
+                EspressoIdlingResource.increment()
+                viewModel.getDetails(id!!, type)
             }
-            val alertDialog: AlertDialog = builder.create()
-            alertDialog.setCancelable(false)
-            alertDialog.show()
+            else {
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Internet Connection Lost")
+                builder.setPositiveButton("REFRESH"){ _, _ ->
+                    getDetails()
+                }
+                val alertDialog: AlertDialog = builder.create()
+                alertDialog.setCancelable(false)
+                alertDialog.show()
+            }
         }
+        detailResponse()
     }
 
     private fun detailResponse() {
-        viewModel.detail.observe({ lifecycle }, {
-            if(!EspressoIdlingResource.idlingResource.isIdleNow){
-                EspressoIdlingResource.decrement()
-            }
-            if (it.success) {
-                data = it.result!!
-                getStatus(it.result)
-                setMovie(it.result)
-            } else {
-                showProgress(false)
-                Toast.makeText(this, "Can't load detail from Internet", Toast.LENGTH_SHORT).show()
-            }
-        })
+        if(status){
+            viewModel.data.observe({ lifecycle }, {
+                if(it!=null){
+                    data = it
+                    setMovie(it)
+                }
+            })
+        }
+        else {
+            viewModel.detail.observe({ lifecycle }, {
+                if(!EspressoIdlingResource.idlingResource.isIdleNow){
+                    EspressoIdlingResource.decrement()
+                }
+                if (it.success) {
+                    data = it.result!!
+                    setMovie(it.result)
+                } else {
+                    showProgress(false)
+                    Toast.makeText(this, "Can't load detail from Internet", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 
-    private fun getStatus(movie: Movies) {
-        viewModel.getSavedMovie(movie.id)
+    private fun getStatus() {
+        viewModel.getSavedMovie(id!!)
         viewModel.data.observe({ lifecycle }, {
             status = it != null
+            getDetails()
             setButton()
         })
     }

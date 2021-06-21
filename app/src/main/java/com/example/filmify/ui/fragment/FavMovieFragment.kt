@@ -1,21 +1,15 @@
 package com.example.filmify.ui.fragment
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.filmify.adapter.MoviesAdapter
+import com.example.filmify.adapter.FavoritePagedListAdapter
 import com.example.filmify.databinding.FragmentFavMovieBinding
-import com.example.filmify.databinding.FragmentMoviesBinding
 import com.example.filmify.ui.FavoriteActivity
-import com.example.filmify.ui.MainActivity
 import com.example.filmify.ui.viewModel.FavoriteViewModel
-import com.example.filmify.ui.viewModel.MoviesViewModel
 import com.example.filmify.utils.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +18,7 @@ class FavMovieFragment : Fragment() {
     private var _binding: FragmentFavMovieBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var moviesAdapter: MoviesAdapter
+    private lateinit var moviesListAdapter: FavoritePagedListAdapter
     private lateinit var viewModel: FavoriteViewModel
 
 
@@ -43,12 +37,12 @@ class FavMovieFragment : Fragment() {
         if(activity != null){
             viewModel = (activity as FavoriteActivity).getFavViewModels()
             showProgress(true)
-            moviesAdapter = MoviesAdapter()
+            moviesListAdapter = FavoritePagedListAdapter()
             moviesResponse()
             with(binding.rvFavMovies) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
-                adapter = moviesAdapter
+                adapter = moviesListAdapter
             }
         }
     }
@@ -59,8 +53,7 @@ class FavMovieFragment : Fragment() {
                 EspressoIdlingResource.decrement()
             }
             showProgress(false)
-            moviesAdapter.setMovies(it)
-            moviesAdapter.notifyDataSetChanged()
+            moviesListAdapter.submitList(it)
         })
     }
 

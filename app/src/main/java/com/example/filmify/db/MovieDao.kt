@@ -1,6 +1,7 @@
 package com.example.filmify.db
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.example.filmify.model.Movies
 
@@ -10,10 +11,10 @@ interface MovieDao {
     suspend fun insertMovie(movie: Movies)
 
     @Query("SELECT * FROM movies WHERE title IS NOT NULL")
-    fun getAllMovies(): LiveData<List<Movies>>
+    fun getAllMovies(): DataSource.Factory<Int, Movies>
 
     @Query("SELECT * FROM movies WHERE name IS NOT NULL")
-    fun getAllTvShows(): LiveData<List<Movies>>
+    fun getAllTvShows(): DataSource.Factory<Int, Movies>
 
     @Delete
     suspend fun deleteMovie(movie: Movies)
