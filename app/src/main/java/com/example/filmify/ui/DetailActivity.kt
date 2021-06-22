@@ -63,12 +63,10 @@ class DetailActivity : AppCompatActivity() {
 
     private fun getDetails() {
         if(status){
-            EspressoIdlingResource.increment()
             viewModel.getSavedMovie(id!!)
         }
         else {
             if(getConnectionType()){
-                EspressoIdlingResource.increment()
                 viewModel.getDetails(id!!, type)
             }
             else {
@@ -125,9 +123,11 @@ class DetailActivity : AppCompatActivity() {
     private fun setButton() {
         if(status){
             binding.detailIvFav.setImageResource(R.drawable.ic_favorite)
+            binding.detailIvFav.tag = R.drawable.ic_favorite
         }
         else {
             binding.detailIvFav.setImageResource(R.drawable.ic_favorite_border)
+            binding.detailIvFav.tag = R.drawable.ic_favorite_border
         }
     }
 

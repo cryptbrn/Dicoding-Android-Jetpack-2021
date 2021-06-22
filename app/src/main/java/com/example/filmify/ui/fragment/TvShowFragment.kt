@@ -12,7 +12,6 @@ import com.example.filmify.adapter.TvShowsAdapter
 import com.example.filmify.databinding.FragmentTvShowsBinding
 import com.example.filmify.ui.MainActivity
 import com.example.filmify.ui.viewModel.TvShowViewModel
-import com.example.filmify.utils.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,7 +49,6 @@ class TvShowFragment : Fragment() {
 
     private fun getTvShows(){
         if((activity as MainActivity).getConnectionType()){
-            EspressoIdlingResource.increment()
             viewModel.getTvShows()
         }
         else {
@@ -68,9 +66,6 @@ class TvShowFragment : Fragment() {
 
     private fun tvShowsResponse() {
         viewModel.tvShows.observe(viewLifecycleOwner, {
-            if(!EspressoIdlingResource.idlingResource.isIdleNow){
-                EspressoIdlingResource.decrement()
-            }
             if (it.success) {
                 showProgress(false)
                 tvShowsAdapter.setTvShows(it.results)

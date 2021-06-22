@@ -10,7 +10,6 @@ import com.example.filmify.adapter.FavoritePagedListAdapter
 import com.example.filmify.databinding.FragmentFavTvShowBinding
 import com.example.filmify.ui.FavoriteActivity
 import com.example.filmify.ui.viewModel.FavoriteViewModel
-import com.example.filmify.utils.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,7 +33,6 @@ class FavTvShowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
             viewModel = (activity as FavoriteActivity).getFavViewModels()
-            EspressoIdlingResource.increment()
             showProgress(true)
             tvShowsAdapter = FavoritePagedListAdapter()
             tvShowsResponse()
@@ -48,9 +46,6 @@ class FavTvShowFragment : Fragment() {
 
     private fun tvShowsResponse() {
         viewModel.getSavedTvShows().observe(viewLifecycleOwner, {
-            if(!EspressoIdlingResource.idlingResource.isIdleNow){
-                EspressoIdlingResource.decrement()
-            }
             showProgress(false)
             tvShowsAdapter.submitList(it)
         })

@@ -50,7 +50,6 @@ class MovieFragment : Fragment() {
 
     private fun getMovies(){
         if((activity as MainActivity).getConnectionType()){
-            EspressoIdlingResource.increment()
             viewModel.getMovies()
         }
         else {
@@ -67,9 +66,6 @@ class MovieFragment : Fragment() {
 
     private fun moviesResponse() {
         viewModel.movies.observe(viewLifecycleOwner, {
-            if(!EspressoIdlingResource.idlingResource.isIdleNow){
-                EspressoIdlingResource.decrement()
-            }
             if(it.success){
                 showProgress(false)
                 moviesAdapter.setMovies(it.results)
