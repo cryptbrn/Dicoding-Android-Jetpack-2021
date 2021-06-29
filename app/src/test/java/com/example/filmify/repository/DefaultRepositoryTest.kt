@@ -40,14 +40,14 @@ class DefaultRepositoryTest{
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var api: ApiService
+    private lateinit var remote: RemoteDataSource
 
     @Mock
     private lateinit var dao: MovieDao
 
     @Before
     fun setup() {
-        repository = Repository(api, dao)
+        repository = Repository(remote, dao)
     }
 
     @ExperimentalCoroutinesApi
@@ -62,9 +62,9 @@ class DefaultRepositoryTest{
             ApiResponse.Results(true,
                 DataDummy.generateDummyMovies()))
 
-        `when`(api.getMovies()).thenReturn(response)
+        `when`(remote.getMovies()).thenReturn(response)
         val movies = repository.getMovies()
-        verify(api).getMovies()
+        verify(remote).getMovies()
         assertNotNull(movies)
         assertEquals(true,movies.isSuccessful)
         assertEquals(10, movies.body()!!.results!!.size)
@@ -75,9 +75,9 @@ class DefaultRepositoryTest{
         val response : Response<ApiResponse.Results> = Response.success(
             ApiResponse.Results(true,
                 DataDummy.generateDummyTvShows()))
-        `when`(api.getTvShows()).thenReturn(response)
+        `when`(remote.getTvShows()).thenReturn(response)
         val tvShows = repository.getTvShows()
-        verify(api).getTvShows()
+        verify(remote).getTvShows()
         assertEquals(true,tvShows.isSuccessful)
         assertEquals(10, tvShows.body()!!.results!!.size)
     }
@@ -86,9 +86,9 @@ class DefaultRepositoryTest{
     @Test
     fun getMovie() = mainCoroutineRule.runBlockingTest {
         val response : Response<Movies> = Response.success(DataDummy.generateDummyMovies()[0])
-        `when`(api.getMovie("https://api.themoviedb.org/3/movie/1")).thenReturn(response)
+        `when`(remote.getMovie("https://api.themoviedb.org/3/movie/1")).thenReturn(response)
         val movie = repository.getMovie("https://api.themoviedb.org/3/movie/1")
-        verify(api).getMovie("https://api.themoviedb.org/3/movie/1")
+        verify(remote).getMovie("https://api.themoviedb.org/3/movie/1")
         assertNotNull(movie)
         assertEquals(true,movie.isSuccessful)
         assertEquals(movie.body()!!.id, dummyMovieDetail.id)
@@ -105,9 +105,9 @@ class DefaultRepositoryTest{
     @Test
     fun getTvShow() = mainCoroutineRule.runBlockingTest {
         val response : Response<Movies> = Response.success(DataDummy.generateDummyTvShows()[0])
-        `when`(api.getTvShow("https://api.themoviedb.org/3/tv/1")).thenReturn(response)
+        `when`(remote.getTvShow("https://api.themoviedb.org/3/tv/1")).thenReturn(response)
         val tvShow = repository.getTvShow("https://api.themoviedb.org/3/tv/1")
-        verify(api).getTvShow("https://api.themoviedb.org/3/tv/1")
+        verify(remote).getTvShow("https://api.themoviedb.org/3/tv/1")
         assertNotNull(tvShow)
         assertEquals(true,tvShow.isSuccessful)
         assertEquals(tvShow.body()!!.id, dummyTvShowDetail.id)
